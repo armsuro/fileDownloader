@@ -8,6 +8,13 @@ use App\File;
 
 class FilesController extends Controller
 {
+
+    /**
+     * This function returns view which contains list of files
+     * @param int $id
+     * @param Request $request
+     * @return view
+    */
     public function view($id = null, Request $request) {
         $data = null;
         $query = File::with('status');
@@ -25,6 +32,12 @@ class FilesController extends Controller
         ]);
     }
 
+    /**
+    *  This function pushes provided url in queue and redirects to home page
+    *
+    *  @param Request $request
+    *  @return redirects to home page
+    */
     public function create(Request $request) {
 
         $request->validate([
@@ -45,6 +58,13 @@ class FilesController extends Controller
 
         return redirect('/');
     }
+
+    /**
+    *  This function opens write stream to client and sends requested file content by id
+    *
+    *  @param int $id
+    *  @return file
+    */
 
     public function download($id) {
         $file = File::where('id', $id)->first();

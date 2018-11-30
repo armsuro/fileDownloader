@@ -22,7 +22,7 @@ class FileDownload implements ShouldQueue
         $this->file = $file;
     }
     /**
-     * Execute the job.
+     * This function downloads file from source
      *
      * @return void
      */
@@ -60,6 +60,14 @@ class FileDownload implements ShouldQueue
 
         $this->file->save();
     }
+
+
+    /**
+     * In case failure runs this one
+     *
+     * @return void
+    */
+
     public function failed()
     {
         $this->file->update([
