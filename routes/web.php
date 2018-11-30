@@ -12,4 +12,5 @@
 */
 
 Route::get('/', 'FilesController@view');
+Route::get('/download/{id}', 'FilesController@download');
 Route::post('/', 'FilesController@create');

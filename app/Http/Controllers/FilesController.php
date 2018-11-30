@@ -45,4 +45,27 @@ class FilesController extends Controller
 
         return redirect('/');
     }
+
+    public function download($id) {
+        $file = File::where('id', $id)->first();
+
+        if (!$file) {
+            return view('errors.404');
+        }
+
+        $fileName = $file->hash;
+
+        $stream = \Storage::disk('files')->getDriver()->readStream($fileName);
+
+        return response()->stream(
+            function() use ($stream) {
+                fpassthru($stream);
+            },
+            200,
+            [
+                'Content-Type' => $file->mime_type,
+                'Content-Disposition' => 'attachment;filename="'.$file->name.'"'
+            ]
+        );
+    }
 }
